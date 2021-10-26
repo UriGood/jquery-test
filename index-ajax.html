@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+
+<body>
+
+    <div id="main">
+        <h1>Formulario de contacto</h1>
+        <form action="peticion.php" name="fo" method="post">
+            <input type="text" name="nombre" id="nombre" placeholder="nombre" ><br><br>
+            <input type="email" name="mail" placeholder="Correo electronico"><br><br>
+            <textarea name="mensaje"  placeholder="Mensaje..."></textarea>
+            <div style="display: block;width: 60%;margin:0 auto">
+                <input type="submit" name="send" value="Enviar">
+                <div id="status"></div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready( function () {
+            var pet = $('#main form').attr('action');
+            var met = $('#main form').attr('method');
+            var nom, m, msj;
+            $('#main form').submit( function (e) {
+                e.preventDefault();
+                $.ajax({
+                    // beforeSend: function () {
+                    //     // $('#status').spin({ radius: 3, width: 2, height: 2, length: 4 });
+                    //     // nom = document.fo.nombre.value;
+                    //     // m = document.fo.mail.value;
+                    //     // msj = document.fo.mensaje.value;
+                    //     // console.log(msj);
+                    // },
+                    url: pet,
+                    type: met,
+                    data: {
+                        nombre: $('input[name=nombre]').val(),
+                        mail: $('input[name=mail]').val(),
+                        mensaje: $('textarea[name=mensaje]').val()
+                    },
+                    // data: $('#main form').serialize(),
+                    success: function (resp) {
+                        if(resp == "correcto"){
+                            $("#status").html('<img alt="ok" src="../img/ok.png"/>');
+                            console.log(resp)
+                        }
+                        else{
+                            $("#status").html('<img alt="error" src="../img/x.png"/>');
+                            console.log(resp)
+                        }
+                        // console.log(resp);
+                    },
+                    error: function(jqXHR, estado, error) {
+                        console.log(estado);
+                        console.log(error);
+                    },
+                    complete: function(jqXHR, estado){
+                        console.log(estado);
+                    }
+                    // data:$('#main form').serialize()
+                });
+            });
+
+        })
+    </script>
+</body>
+
+</html>

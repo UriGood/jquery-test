@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- <script src="https://kit.fontawesome.com/5e059b5338.js" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+
+
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        .fas {
+            display: none;
+        }
+    </style>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1>JQuery<br>Envio de datos por ajax</h1>
+                <form>
+                    <p>
+                        <label for="username">Username</label>
+                        <input class="form-control" id="username" name="username" type="text"></label>
+                    </p>
+
+                    <p>
+                        <label for="password">Username</label>
+                        <input class="form-control" name="password" type="password" name="" id="">
+                    </p>
+                    <input class="btn btn-primary" type="submit" value="Login">
+                    <i class="fas fa-sync-alt fa-spin"></i>
+                </form>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('form').submit(function (e) {
+                e.preventDefault();
+
+                var data = $(this).serializeArray();
+                data.push({ name: 'tag', value: 'login' });
+
+                $.ajax({
+                    type: "post",
+                    url: "process.php",
+                    data: data,
+                    dataType: "json",
+                    beforeSend: function () {
+                        $('.fas').css('display', 'inline-block');
+                    }
+                })
+                    .done(function () { // TRUE
+                        setTimeout(function () {
+                            console.log("sucess");
+                            $('span').html("Correcto");
+
+                        }, 1000);
+
+                    })
+                    .fail(function () { // FALSE
+
+                        setTimeout(function () {
+                            $('span').html("Incorrecto");
+                            console.log("error");
+
+                        }, 1000);
+                    })
+                    .always(function () {
+                        setTimeout(function () {
+                            $('.fas').hide();
+
+                        }, 1000);
+                    });
+            })
+        })
+    </script>
+</body>
+
+</html>
